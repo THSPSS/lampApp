@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:lamp/global_variable.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('your word is a lamp for my feet and a light on my path'),
-    );
+        body: Expanded(child: LayoutBuilder(builder: (context, constraints) {
+      final items = scriptures;
+      return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, i) {
+            final scripture = items[i];
+
+            return Text(scripture['content'].toString());
+          });
+    })));
   }
 }
