@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ScriptureCard extends StatelessWidget {
+class FrontCard extends StatelessWidget {
   final String theme;
   final String type;
   final String num;
@@ -9,7 +9,7 @@ class ScriptureCard extends StatelessWidget {
   final String chapter;
   final String part;
   final String content;
-  const ScriptureCard(
+  const FrontCard(
       {super.key,
       required this.theme,
       required this.type,
@@ -26,7 +26,9 @@ class ScriptureCard extends StatelessWidget {
         margin: EdgeInsets.all(16),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.amberAccent.withOpacity(0.5),
+          color: type == "A"
+              ? Colors.greenAccent.withOpacity(0.5)
+              : Colors.amberAccent.withOpacity(0.5),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
