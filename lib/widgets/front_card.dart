@@ -26,6 +26,7 @@ class FrontCard extends StatelessWidget {
         margin: EdgeInsets.all(16),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
+          border: Border.all(width: 2, color: Colors.black),
           color: type == "A"
               ? Colors.greenAccent.withOpacity(0.5)
               : Colors.amberAccent.withOpacity(0.5),
@@ -33,43 +34,42 @@ class FrontCard extends StatelessWidget {
             Radius.circular(20),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text("$book $chapter:$part"),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text(content),
-            SizedBox(
-              height: 5.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "$book $chapter:$part",
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Row(
-              children: [
-                Text("$type-$num"),
-                SizedBox(
-                  width: 3,
-                ),
-                Text(theme),
-              ],
-            )
-          ]),
-        ));
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text("$book $chapter:$part"),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(content),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "$book $chapter:$part",
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: [
+                  Text("$type-$num"),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(theme),
+                ],
+              )
+            ]));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lamp/global_variable.dart';
+import 'package:lamp/widgets/card_container.dart';
 import 'package:lamp/widgets/front_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -18,7 +19,7 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, i) {
                 final scripture = items[i];
 
-                return FrontCard(
+                return CardContainer(
                     theme: scripture['theme'].toString(),
                     type: scripture['type'].toString(),
                     num: scripture['num'].toString(),
