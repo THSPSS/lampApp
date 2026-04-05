@@ -153,7 +153,7 @@ final frontScripture = [
     'id': 14,
     'type': 'B',
     'num': '2',
-    'theme': '이사야',
+    'theme': '그리스도를 전파함',
     'title': '모든 사람이 죄를 범함',
     'book': '이사야',
     'chapter': '53',

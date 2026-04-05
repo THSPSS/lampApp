@@ -42,7 +42,7 @@ class _CardContainerState extends State<CardContainer>
     super.initState();
 
     _cardFlipController = AnimationController(
-      duration: const Duration(seconds: 2), // Animation lasts 2 seconds
+      duration: const Duration(seconds: 1), // Animation lasts 1 seconds
       vsync: this, // Syncs with the screen refresh rate
     );
 
