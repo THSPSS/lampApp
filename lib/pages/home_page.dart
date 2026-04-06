@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
                 final scripture = items[i];
 
                 return Align(
-                  heightFactor: 0.5,
+                  heightFactor: 0.2,
                   child: CardContainer(
                       theme: scripture['theme'].toString(),
                       type: scripture['type'].toString(),
