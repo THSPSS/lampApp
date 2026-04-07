@@ -27,9 +27,7 @@ class BackCard extends StatelessWidget {
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: Colors.black),
-          color: type == "A"
-              ? Colors.greenAccent.withOpacity(0.5)
-              : Colors.amberAccent.withOpacity(0.5),
+          color: type == "A" ? Colors.greenAccent : Colors.amberAccent,
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),

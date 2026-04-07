@@ -42,14 +42,14 @@ class _CardContainerState extends State<CardContainer>
     super.initState();
 
     _cardFlipController = AnimationController(
-      duration: const Duration(milliseconds: 1), // Animation lasts 1 seconds
-      vsync: this, // Syncs with the screen refresh rate
+      duration: const Duration(milliseconds: 1),
+      vsync: this,
     );
 
     _cardFlipAnimation = Tween(
       begin: 0.0, // ---> 0°
       end: pi, // ---> 180°
-    ).animate(_cardFlipController); // Place the animation controller here
+    ).animate(_cardFlipController);
   }
 
   @override
