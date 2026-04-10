@@ -26,9 +26,7 @@ class FrontCard extends StatelessWidget {
         margin: EdgeInsets.all(16),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: type == "A"
-              ? Colors.greenAccent.withOpacity(0.5)
-              : Colors.amberAccent.withOpacity(0.5),
+          color: type == "A" ? Colors.greenAccent : Colors.amberAccent,
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),

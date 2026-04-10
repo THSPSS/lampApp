@@ -18,18 +18,15 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, i) {
                 final scripture = items[i];
 
-                return Align(
-                  heightFactor: 0.2,
-                  child: CardContainer(
-                      theme: scripture['theme'].toString(),
-                      type: scripture['type'].toString(),
-                      num: scripture['num'].toString(),
-                      title: scripture['title'].toString(),
-                      book: scripture['book'].toString(),
-                      chapter: scripture['chapter'].toString(),
-                      part: scripture['part'].toString(),
-                      content: scripture['content'].toString()),
-                );
+                return CardContainer(
+                    theme: scripture['theme'].toString(),
+                    type: scripture['type'].toString(),
+                    num: scripture['num'].toString(),
+                    title: scripture['title'].toString(),
+                    book: scripture['book'].toString(),
+                    chapter: scripture['chapter'].toString(),
+                    part: scripture['part'].toString(),
+                    content: scripture['content'].toString());
               });
         }));
   }
