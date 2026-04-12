@@ -5,6 +5,15 @@ class TestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.red, child: Text("this is Container"));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Scripture card"),
+      ),
+      body: Container(
+        width: 300,
+        height: 150,
+        color: Colors.amberAccent,
+      ),
+    );
   }
 }
