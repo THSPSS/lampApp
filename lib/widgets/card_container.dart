@@ -57,7 +57,9 @@ class _CardContainerState extends State<CardContainer>
     return GestureDetector(
       onTap: () {
         if (isFront) {
-          _cardFlipController.forward();
+          setState(() {
+            _cardFlipController.forward();
+          });
         }
       },
       child: AnimatedBuilder(

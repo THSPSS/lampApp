@@ -31,7 +31,7 @@ class AnimatedCardPageState extends State<AnimatedCardPage>
       ),
     );
 
-    rotate = Tween<double>(begin: 0, end: 2 * pi).animate(
+    rotate = Tween<double>(begin: 0, end: pi).animate(
       CurvedAnimation(
         parent: controller,
         curve: Interval(0.0, 0.3, curve: Curves.easeIn),
