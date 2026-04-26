@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:lamp/global_variable.dart';
 
 class AnimatedCardPage extends StatefulWidget {
+  final Function onCardChanged;
+
+  AnimatedCardPage({this.onCardChanged});
   @override
-  AnimatedCardPageState createState() => AnimatedCardPageState();
+  _AnimatedCardPageState createState() => _AnimatedCardPageState();
 }
 
-class AnimatedCardPageState extends State<AnimatedCardPage>
+class _AnimatedCardPageState extends State<AnimatedCardPage>
     with SingleTickerProviderStateMixin {
+  //might need to add cards
+  //  var int currentIndex;
+
   late AnimationController controller;
   late Animation<double> moveDown;
   late Animation<double> rotate;
@@ -21,7 +27,7 @@ class AnimatedCardPageState extends State<AnimatedCardPage>
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 60),
     );
 
     moveUp = Tween<double>(begin: 0, end: 150).animate(
