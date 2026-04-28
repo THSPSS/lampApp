@@ -20,11 +20,14 @@ class _AnimatedCardPageState extends State<AnimatedCardPage>
   late Animation<double> moveDown;
   late Animation<double> rotate;
   late Animation<double> moveUp;
+  CurvedAnimation curvedAnimation;
+  Animation<Offset> _translationAnim;
+  Animation<Offset> _moveAnim;
+  Animation<double> _scaleAnim;
 
   @override
   void initState() {
     super.initState();
-
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 60),
