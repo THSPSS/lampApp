@@ -6,7 +6,7 @@ import 'package:lamp/global_variable.dart';
 class AnimatedCardPage extends StatefulWidget {
   final Function onCardChanged;
 
-  AnimatedCardPage({this.onCardChanged});
+  AnimatedCardPage({required this.onCardChanged});
   @override
   _AnimatedCardPageState createState() => _AnimatedCardPageState();
 }
@@ -20,18 +20,27 @@ class _AnimatedCardPageState extends State<AnimatedCardPage>
   late Animation<double> moveDown;
   late Animation<double> rotate;
   late Animation<double> moveUp;
-  CurvedAnimation curvedAnimation;
-  Animation<Offset> _translationAnim;
-  Animation<Offset> _moveAnim;
-  Animation<double> _scaleAnim;
+  late CurvedAnimation curvedAnimation;
+  late Animation<Offset> _translationAnim;
+  late Animation<Offset> _moveAnim;
+  late Animation<double> _scaleAnim;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 60),
+      duration: Duration(milliseconds: 150),
     );
+    curvedAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+
+    // moved from center to left
+    _translationAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(-1000.0, 0.0))
+        .animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
 
     moveUp = Tween<double>(begin: 0, end: 150).animate(
       CurvedAnimation(
