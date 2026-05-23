@@ -71,32 +71,9 @@ class _AnimatedCardPageState extends State<AnimatedCardPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Custom move with card"),
-      ),
-      body: GestureDetector(
-        onTap: startAnimation,
-        child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) {
-            return Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.identity()
-                ..setEntry(1, 3, 0.001)
-                ..rotateX(rotate.value), //perspective
-              child: child,
-            );
-          },
-          child: Center(
-            child: Container(
-              width: 300,
-              height: 150,
-              color: Colors.amberAccent,
-              child: Text(frontScripture[0]['content'].toString()),
-            ),
-          ),
+        appBar: AppBar(
+          title: Text("Custom move with card"),
         ),
-      ),
-    );
+        body: Center());
   }
 }
