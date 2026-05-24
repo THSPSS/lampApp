@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+//using <T> for Generic Widget : allowing it to handle any type of card data.
+class CardsSwiperWidget<T> extends StatefulWidget {
+  //Parameters
+  final List<T> cardData;
+  //Each Card Builder
+  final Widget Function(BuildContext context, int index, int visibleIndex)
+      cardBuilder;
+  //duration for Swipe animation
+  final Duration animationDuration;
+  //how far card can be dragged down
+  final double maxDragDistance;
+  //point where card should be swiped away
+  final double thresholdValue;
+  //Callback when the top card changes
+  final void Function(int)? onCardChange;
+
+  const CardsSwiperWidget({
+    required this.cardData,
+    required this.cardBuilder,
+    this.animationDuration = const Duration(milliseconds: 800),
+    this.maxDragDistance = 220.0,
+    this.thresholdValue = 0.3,
+    this.onCardChange,
+    super.key,
+  });
+
+  @override
+  State<CardsSwiperWidget<T>> createState() => _CardsSwiperWidgetState<T>();
+}
+
+//Building the State Class
+class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _yOffsetAnimation;
+  late Animation<double> _rotationAnimation;
+
+  double _startAnimationValue = 0.0;
+  double _dragStartPosition = 0.0;
+  double _dragOffest = 0.0;
+  bool _isCardSwitched = false;
+  bool _hasReachdHalf = false;
+
+  late List<T> _cardData;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Copy the card data to allow modifications
+    _cardData = List.from(widget.cardData);
+
+    // Initialize the AnimationController
+    _controller = AnimationController(
+      duration: widget.animationDuration,
+      vsync: this,
+    );
+
+    // Create a CurvedAnimation
+    final _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+
+    // Define the yOffset animation
+    _yOffsetAnimation = Tween<double>(
+      begin: 0.0,
+      end: -widget.maxDragDistance,
+    ).animate(_animation);
+
+    // Define the rotation animation
+    _rotationAnimation = Tween<double>(
+      begin: 0.0,
+      end: -pi,
+    ).animate(_animation);
+
+    //Listen to the animation value to switch cards
+    _controller.addListener(() {
+      if (!_isCardSwitched && _controller.value >= 0.5) {
+        // Move the top card to the back
+        // Remove from first slot and add it to make it last of list
+        var firstCard = _cardData.removeAt(0);
+        _cardData.add(firstCard);
+
+        _isCardSwitched = true;
+
+        // Trigger the callback with the new top card index
+        if (widget.onCardChange != null) {
+          widget.onCardChange!(widget.cardData.indexOf(_cardData[0]));
+        }
+      }
+
+      // Reset the switch flag when animation resets
+      if (_controller.value == 1.0) {
+        _isCardSwitched = false;
+        _controller.reset();
+        _hasReachdHalf = false;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
