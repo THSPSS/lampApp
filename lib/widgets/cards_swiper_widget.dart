@@ -42,7 +42,7 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
   double _dragStartPosition = 0.0;
   double _dragOffest = 0.0;
   bool _isCardSwitched = false;
-  bool _hasReachdHalf = false;
+  bool _hasReachedHalf = false;
 
   late List<T> _cardData;
 
@@ -97,7 +97,7 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
       if (_controller.value == 1.0) {
         _isCardSwitched = false;
         _controller.reset();
-        _hasReachdHalf = false;
+        _hasReachedHalf = false;
       }
     });
   }
@@ -106,5 +106,65 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  //Called when the users starts dragging
+  void _onVerticalDragStart(DragStartDetails details) {
+    if (_controller.isAnimating) return;
+
+    _startAnimationValue = _controller.value;
+    _dragStartPosition = details.globalPosition.dy;
+    _controller.stop(canceled: false);
+    _hasReachedHalf = false;
+  }
+
+// Updates the animation based on the drag distance
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    if (_controller.isAnimating || _hasReachedHalf) return;
+
+    double dragDistance = _dragStartPosition -
+        details.globalPosition.dy; // positive when dragging up
+
+    if (dragDistance >= 0) {
+      //Dragging up
+      double dragFraction = dragDistance / widget.maxDragDistance;
+      double newValue = (_startAnimationValue + dragFraction).clamp(0.0, 1.0);
+      _controller.value = newValue;
+
+      if (_controller.value >= 0.5 && !_hasReachedHalf) {
+        _hasReachedHalf = true;
+        _controller.animateTo(1.0, duration: Duration(milliseconds: 200));
+      }
+    }
+  }
+
+  // Complete the animation when the drags ends
+  void _onVerticalDragEnd(DragEndDetails details) {
+    if (_controller.isAnimating) return;
+
+    if (!_hasReachedHalf) {
+      if (_controller.value >= widget.thresholdValue) {
+        _controller.animateTo(1.0, duration: Duration(milliseconds: 200));
+      } else {
+        _controller.animateBack(0.0, duration: Duration(milliseconds: 200));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onVerticalDragStart: _onVerticalDragStart,
+        onVerticalDragUpdate: _onVerticalDragUpdate,
+        onVerticalDragEnd: _onVerticalDragEnd,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [],
+            );
+          },
+        ));
   }
 }
