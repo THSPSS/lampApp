@@ -162,7 +162,26 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
           builder: (context, child) {
             return Stack(
               alignment: Alignment.center,
-              children: [],
+              children: [
+                // Third card (if exists)
+                if (_cardData.length > 2)
+                  Transform.translate(
+                      offset: Offset(0, 20),
+                      child: widget.cardBuilder(
+                          context, widget.cardData.indexOf(_cardData[2]), 2)),
+                // Second card
+                if (_cardData.length > 1)
+                  Transform.translate(
+                    offset: Offset(0, 10),
+                    child: widget.cardBuilder(
+                        context, widget.cardData.indexOf(_cardData[1]), 1),
+                  ),
+                // Top card with animation
+                Transform.translate(
+                    offset: Offset(0, _yOffsetAnimation.value),
+                    child: widget.cardBuilder(
+                        context, widget.cardData.indexOf(_cardData[0]), 0))
+              ],
             );
           },
         ));
