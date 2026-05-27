@@ -178,9 +178,13 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
                   ),
                 // Top card with animation
                 Transform.translate(
-                    offset: Offset(0, _yOffsetAnimation.value),
+                  offset: Offset(0, _yOffsetAnimation.value),
+                  child: Transform.rotate(
+                    angle: _rotationAnimation.value,
                     child: widget.cardBuilder(
-                        context, widget.cardData.indexOf(_cardData[0]), 0))
+                        context, widget.cardData.indexOf(_cardData[0]), 0),
+                  ),
+                ),
               ],
             );
           },
