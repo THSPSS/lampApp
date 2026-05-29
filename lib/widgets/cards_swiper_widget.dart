@@ -13,6 +13,7 @@ class CardsSwiperWidget<T> extends StatefulWidget {
   //how far card can be dragged down
   final double maxDragDistance;
   //point where card should be swiped away
+  final Duration downDragDuration;
   final double thresholdValue;
   //Callback when the top card changes
   final void Function(int)? onCardChange;
@@ -21,6 +22,7 @@ class CardsSwiperWidget<T> extends StatefulWidget {
     required this.cardData,
     required this.cardBuilder,
     this.animationDuration = const Duration(milliseconds: 800),
+    this.downDragDuration = const Duration(milliseconds: 300),
     this.maxDragDistance = 220.0,
     this.thresholdValue = 0.3,
     this.onCardChange,
