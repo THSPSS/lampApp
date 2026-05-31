@@ -17,6 +17,24 @@ class CardsSwiperWidget<T> extends StatefulWidget {
   final double thresholdValue;
   //Callback when the top card changes
   final void Function(int)? onCardChange;
+  final bool shouldStartCardCollectionAnimation;
+  final void Function(bool value) onCardCollectionAnimationComplete;
+
+  // Offset and scale parameters
+  final double topCardOffsetStart;
+  final double topCardOffsetEnd;
+  final double topCardScaleStart;
+  final double topCardScaleEnd;
+
+  final double secondCardOffsetStart;
+  final double secondCardOffsetEnd;
+  final double secondCardScaleStart;
+  final double secondCardScaleEnd;
+
+  final double thirdCardOffsetStart;
+  final double thirdCardOffsetEnd;
+  final double thirdCardScaleStart;
+  final double thirdCardScaleEnd;
 
   const CardsSwiperWidget({
     required this.cardData,
@@ -26,6 +44,21 @@ class CardsSwiperWidget<T> extends StatefulWidget {
     this.maxDragDistance = 220.0,
     this.thresholdValue = 0.3,
     this.onCardChange,
+    // Default offset and scale values
+    this.topCardOffsetStart = 0.0,
+    this.topCardOffsetEnd = -15.0,
+    this.topCardScaleStart = 1.0,
+    this.topCardScaleEnd = 0.9,
+    this.secondCardOffsetStart = -15.0,
+    this.secondCardOffsetEnd = 0.0,
+    this.secondCardScaleStart = 0.95,
+    this.secondCardScaleEnd = 1.0,
+    this.thirdCardOffsetStart = -30.0,
+    this.thirdCardOffsetEnd = -15.0,
+    this.thirdCardScaleStart = 0.9,
+    this.thirdCardScaleEnd = 0.95,
+    this.shouldStartCardCollectionAnimation = false,
+    required this.onCardCollectionAnimationComplete,
     super.key,
   });
 
