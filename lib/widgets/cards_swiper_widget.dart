@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/services.dart';
 
 //using <T> for Generic Widget : allowing it to handle any type of card data.
 class CardsSwiperWidget<T> extends StatefulWidget {
@@ -69,17 +73,55 @@ class CardsSwiperWidget<T> extends StatefulWidget {
 //Building the State Class
 class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _yOffsetAnimation;
-  late Animation<double> _rotationAnimation;
+  AnimationController? _controller;
+  Animation<double>? _yOffsetAnimation;
+  Animation<double>? _rotationAnimation;
+  Animation<double>? _animation;
+  AnimationController? _downDragController;
+  Animation<double>? _downDragAnimation;
+  AnimationController? _cardCollectionAnimationController;
+  Animation<double>? _cardCollectionyOffsetAnimation;
 
   double _startAnimationValue = 0.0;
   double _dragStartPosition = 0.0;
-  double _dragOffest = 0.0;
+  double _dragOffset = 0.0;
   bool _isCardSwitched = false;
   bool _hasReachedHalf = false;
+  bool _isAnimationBlocked = false;
+  bool _shouldPlayVibration = true;
 
   late List<T> _cardData;
+
+  Timer? _debounceTimer;
+
+  Widget? _topCardWidget;
+  int? _topCardIndex;
+
+  Widget? _secondCardWidget;
+  int? _secondCardIndex;
+
+  Widget? _thirdCardWidget;
+  int? _thirdCardIndex;
+
+  Widget? _poppedCardWidget;
+  int? _poppedCardIndex;
+
+  Future<void> onCardSwitchVibration() async {
+    HapticFeedback.lightImpact();
+    Future.delayed(const Duration(milliseconds: 250), () {
+      HapticFeedback.selectionClick();
+    });
+  }
+
+  Future<void> onCardBlockVibration() async {
+    HapticFeedback.lightImpact();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      HapticFeedback.lightImpact();
+    });
+    Future.delayed(const Duration(milliseconds: 300), () {
+      HapticFeedback.mediumImpact();
+    });
+  }
 
   @override
   void initState() {
@@ -95,16 +137,16 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
     );
 
     // Create a CurvedAnimation
-    final _animation = CurvedAnimation(
-      parent: _controller,
+    _animation = CurvedAnimation(
+      parent: _controller ?? AnimationController(vsync: this),
       curve: Curves.easeInOut,
     );
 
-    // Define the yOffset animation
+    // Define the yOffset animation using TweenSequence
     _yOffsetAnimation = Tween<double>(
       begin: 0.0,
       end: -widget.maxDragDistance,
-    ).animate(_animation);
+    ).animate(_animation ?? const AlwaysStoppedAnimation(0.0));
 
     // Define the rotation animation
     _rotationAnimation = Tween<double>(
