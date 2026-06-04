@@ -151,8 +151,12 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
     // Define the rotation animation
     _rotationAnimation = Tween<double>(
       begin: 0.0,
-      end: -pi,
-    ).animate(_animation);
+      end: -180.0,
+    ).animate(_animation ?? const AlwaysStoppedAnimation(0.0));
+
+    //Initialize the down drag controller
+    _downDragController =
+        AnimationController(duration: widget.downDragDuration, vsync: this);
 
     //Listen to the animation value to switch cards
     _controller.addListener(() {
