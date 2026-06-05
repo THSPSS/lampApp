@@ -158,6 +158,14 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
     _downDragController =
         AnimationController(duration: widget.downDragDuration, vsync: this);
 
+    _downDragAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.0,
+    ).animate(_downDragController ?? AnimationController(vsync: this))
+      ..addListener(() {
+        _dragOffset = _downDragAnimation?.value ?? 0.0;
+      });
+
     //Listen to the animation value to switch cards
     _controller.addListener(() {
       if (!_isCardSwitched && _controller.value >= 0.5) {
