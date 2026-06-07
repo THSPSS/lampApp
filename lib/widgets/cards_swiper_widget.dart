@@ -167,25 +167,35 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
       });
 
     //Listen to the animation value to switch cards
-    _controller.addListener(() {
-      if (!_isCardSwitched && _controller.value >= 0.5) {
-        // Move the top card to the back
-        // Remove from first slot and add it to make it last of list
-        var firstCard = _cardData.removeAt(0);
-        _cardData.add(firstCard);
+    _controller?.addListener(() {
+      print("_controller listen");
+      // Only perform switch if there are multiple cards
+      if (_cardData.length > 1) {
+        // Switch cards at midpoint(0.5) of the animation
+        if (!_isCardSwitched && (_controller?.value ?? 0.0) >= 0.5) {
+          if (_debounceTimer?.isActive ?? false) {
+            _isCardSwitched = true;
+            return;
+          }
 
-        _isCardSwitched = true;
+          // Move the top card to the back
+          // Remove from first slot and add it to make it last of list
+          var firstCard = _cardData.removeAt(0);
+          _cardData.add(firstCard);
 
-        // Trigger the callback with the new top card index
-        if (widget.onCardChange != null) {
-          widget.onCardChange!(widget.cardData.indexOf(_cardData[0]));
+          _isCardSwitched = true;
+
+          // Trigger the callback with the new top card index
+          if (widget.onCardChange != null) {
+            widget.onCardChange!(widget.cardData.indexOf(_cardData[0]));
+          }
         }
       }
 
       // Reset the switch flag when animation resets
-      if (_controller.value == 1.0) {
+      if (_controller?.value == 1.0) {
         _isCardSwitched = false;
-        _controller.reset();
+        _controller?.reset();
         _hasReachedHalf = false;
       }
     });
@@ -193,7 +203,7 @@ class _CardsSwiperWidgetState<T> extends State<CardsSwiperWidget<T>>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
